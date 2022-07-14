@@ -147,7 +147,9 @@ display(trips.select("pickup_geom", "dropoff_geom"))
 from mosaic import MosaicFrame
 
 neighbourhoods_mosaic_frame = MosaicFrame(neighbourhoods, "geometry")
-optimal_resolution = neighbourhoods_mosaic_frame.get_optimal_resolution(0.75)
+# optimal_resolution = neighbourhoods_mosaic_frame.get_optimal_resolution(0.75)
+optimal_resolution = neighbourhoods_mosaic_frame.get_optimal_resolution(1)
+
 
 print(f"Optimal resolution is {optimal_resolution}")
 
