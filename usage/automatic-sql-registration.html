@@ -95,7 +95,7 @@
       </div>
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
-          <span class="md-header-nav__topic">Mosaic v0.2.1</span>
+          <span class="md-header-nav__topic">Mosaic v0.3.0</span>
           <span class="md-header-nav__topic"> Automatic SQL registration </span>
         </div>
       </div>
@@ -180,7 +180,7 @@
       
     </a>
     <a href="../index.html"
-       title="Mosaic">Mosaic v0.2.1</a>
+       title="Mosaic">Mosaic v0.3.0</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/databrickslabs/mosaic/" title="Go to repository" class="md-source" data-md-source="github">
@@ -288,7 +288,7 @@
     <li class="md-nav__item">
     
     
-      <a href="../api/spatial-indexing.html" class="md-nav__link">Spatial indexing</a>
+      <a href="../api/spatial-indexing.html" class="md-nav__link">Spatial grid indexing</a>
       
     
     </li>
@@ -355,7 +355,8 @@ with a geospatial middleware component such as [Geoserver](<a class="reference e
 
 <h2 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
 <p>In order to use Mosaic, you must have access to a Databricks cluster running
-Databricks Runtime 10.0 or later. If you have cluster creation permissions in your Databricks
+Databricks Runtime 10.0 or higher (11.2 with photon or higher is recommended).
+If you have cluster creation permissions in your Databricks
 workspace, you can create a cluster using the instructions
 <a class="reference external" href="https://docs.databricks.com/clusters/create.html#use-the-cluster-ui">here</a>.</p>
 <p>You will also need “Can Manage” permissions on this cluster in order to attach init script
