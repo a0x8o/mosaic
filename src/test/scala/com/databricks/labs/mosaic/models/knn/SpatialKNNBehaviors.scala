@@ -35,9 +35,7 @@ trait SpatialKNNBehaviors extends MosaicSpatialQueryTest {
             .setApproximate(false)
             .setKNeighbours(20)
             .setLandmarksFeatureCol("wkt")
-            .setLandmarksRowID("landmark_id")
             .setCandidatesFeatureCol("wkt")
-            .setCandidatesRowID("candidate_id")
             .setMaxIterations(100)
             .setEarlyStopIterations(3)
             // note this is CRS specific
@@ -68,7 +66,7 @@ trait SpatialKNNBehaviors extends MosaicSpatialQueryTest {
 
         matches
             .select(
-              countDistinct("landmark_id")
+              countDistinct("landmarks_miid")
             )
             .as[Long]
             .collect()
@@ -76,7 +74,7 @@ trait SpatialKNNBehaviors extends MosaicSpatialQueryTest {
 
         matches
             .select(
-              countDistinct("candidate_id")
+              countDistinct("candidates_miid")
             )
             .as[Long]
             .collect()
@@ -125,9 +123,7 @@ trait SpatialKNNBehaviors extends MosaicSpatialQueryTest {
             .setApproximate(true)
             .setKNeighbours(20)
             .setLandmarksFeatureCol("wkt")
-            .setLandmarksRowID("landmark_id")
             .setCandidatesFeatureCol("wkt")
-            .setCandidatesRowID("candidate_id")
             .setMaxIterations(100)
             .setEarlyStopIterations(3)
             // note this is CRS specific
@@ -158,7 +154,7 @@ trait SpatialKNNBehaviors extends MosaicSpatialQueryTest {
 
         matches
             .select(
-              countDistinct("landmark_id")
+              countDistinct("landmarks_miid")
             )
             .as[Long]
             .collect()
@@ -166,7 +162,7 @@ trait SpatialKNNBehaviors extends MosaicSpatialQueryTest {
 
         matches
             .select(
-              countDistinct("candidate_id")
+              countDistinct("candidates_miid")
             )
             .as[Long]
             .collect()

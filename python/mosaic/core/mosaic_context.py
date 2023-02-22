@@ -14,7 +14,6 @@ class MosaicContext:
     _mosaicContextClass: JavaClass
     _mosaicPackageRef: JavaClass
     _mosaicPackageObject: JavaObject
-    _mosaicGDALObject: JavaObject
 
     def __init__(self, spark: SparkSession):
         sc = spark.sparkContext
@@ -23,7 +22,6 @@ class MosaicContext:
         )
         self._mosaicPackageRef = getattr(sc._jvm.com.databricks.labs.mosaic, "package$")
         self._mosaicPackageObject = getattr(self._mosaicPackageRef, "MODULE$")
-        self._mosaicGDALObject = getattr(sc._jvm.com.databricks.labs.mosaic.gdal, "MosaicGDAL")
 
         try:
             self._geometry_api = spark.conf.get(
@@ -39,19 +37,11 @@ class MosaicContext:
         except Py4JJavaError as e:
             self._index_system = "H3"
 
-        try:
-            self._raster_api = spark.conf.get(
-                "spark.databricks.labs.mosaic.raster.api"
-            )
-        except Py4JJavaError as e:
-            self._raster_api = "GDAL"
-
         IndexSystemClass = getattr(self._mosaicPackageObject, self._index_system)
         GeometryAPIClass = getattr(self._mosaicPackageObject, self._geometry_api)
-        RasterAPIClass   = getattr(self._mosaicPackageObject, self._raster_api)
 
         self._context = self._mosaicContextClass.build(
-            IndexSystemClass(), GeometryAPIClass(), RasterAPIClass()
+            IndexSystemClass(), GeometryAPIClass()
         )
 
     def invoke_function(self, name: str, *args: Any) -> MosaicColumn:
@@ -65,6 +55,3 @@ class MosaicContext:
     @property
     def index_system(self):
         return self._index_system
-
-    def enable_gdal(self, spark: SparkSession):
-        return self._mosaicGDALObject.enableGDAL(spark._jsparkSession)

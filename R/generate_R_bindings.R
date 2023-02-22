@@ -72,9 +72,6 @@ build_method<-function(input){
     else if(x[2] == 'String'){
       x[2] = "character"
     }
-    else if(x[2] == 'Double'){
-      x[2] = "numeric"
-    }
     x
   }
   # convert scala type to R types
@@ -152,7 +149,7 @@ get_function_names <- function(scala_file_path){
     )
   }
   ))
-  sort(methods_to_bind, T)
+  methods_to_bind
 }
 
 ############################################################

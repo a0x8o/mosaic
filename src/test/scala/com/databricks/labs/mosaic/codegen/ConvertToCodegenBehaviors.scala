@@ -2,17 +2,17 @@ package com.databricks.labs.mosaic.codegen
 
 import com.databricks.labs.mosaic.functions.MosaicContext
 import com.databricks.labs.mosaic.test.mocks._
-import com.databricks.labs.mosaic.test.MosaicSpatialQueryTest
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator
 import org.apache.spark.sql.execution.WholeStageCodegenExec
 import org.apache.spark.sql.functions.col
+import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers.{be, noException}
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
-trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
+trait ConvertToCodegenBehaviors { this: AnyFlatSpec =>
 
-    def codegenWKBtoWKB(mosaicContext: MosaicContext): Unit = {
+    def codegenWKBtoWKB(mosaicContext: => MosaicContext): Unit = {
         val mc = mosaicContext
         import mc.functions._
 
@@ -39,7 +39,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
         hexDf.where("wkb == wkb_new").count() should be > 0L
     }
 
-    def codegenWKBtoWKT(mosaicContext: MosaicContext): Unit = {
+    def codegenWKBtoWKT(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -79,7 +79,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
         right.zip(left).foreach { case (l, r) => l.equals(r) shouldEqual true }
     }
 
-    def codegenWKBtoHEX(mosaicContext: MosaicContext): Unit = {
+    def codegenWKBtoHEX(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -114,10 +114,10 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
             .collect()
             .map(mc.getGeometryAPI.geometry(_, "HEX"))
 
-        right.zip(left).foreach { case (l, r) => l.getArea shouldEqual r.getArea }
+        right.zip(left).foreach { case (l, r) => l.equals(r) shouldEqual true }
     }
 
-    def codegenWKBtoCOORDS(mosaicContext: MosaicContext): Unit = {
+    def codegenWKBtoCOORDS(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -153,7 +153,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
         right.zip(left).foreach { case (l, r) => l.equals(r) shouldEqual true }
     }
 
-    def codegenWKBtoGEOJSON(mosaicContext: MosaicContext): Unit = {
+    def codegenWKBtoGEOJSON(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -191,7 +191,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
         right.zip(left).foreach { case (l, r) => l.equals(r) shouldEqual true }
     }
 
-    def codegenWKTtoWKB(mosaicContext: MosaicContext): Unit = {
+    def codegenWKTtoWKB(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -230,7 +230,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenWKTtoHEX(mosaicContext: MosaicContext): Unit = {
+    def codegenWKTtoHEX(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -268,7 +268,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenWKTtoCOORDS(mosaicContext: MosaicContext): Unit = {
+    def codegenWKTtoCOORDS(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -305,7 +305,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenWKTtoGEOJSON(mosaicContext: MosaicContext): Unit = {
+    def codegenWKTtoGEOJSON(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -343,7 +343,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenHEXtoWKB(mosaicContext: MosaicContext): Unit = {
+    def codegenHEXtoWKB(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -383,7 +383,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenHEXtoWKT(mosaicContext: MosaicContext): Unit = {
+    def codegenHEXtoWKT(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -422,7 +422,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenHEXtoCOORDS(mosaicContext: MosaicContext): Unit = {
+    def codegenHEXtoCOORDS(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -460,7 +460,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenHEXtoGEOJSON(mosaicContext: MosaicContext): Unit = {
+    def codegenHEXtoGEOJSON(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -499,7 +499,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenCOORDStoWKB(mosaicContext: MosaicContext): Unit = {
+    def codegenCOORDStoWKB(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -539,7 +539,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenCOORDStoWKT(mosaicContext: MosaicContext): Unit = {
+    def codegenCOORDStoWKT(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -579,7 +579,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
         right.zip(left).foreach { case (l, r) => l.equals(r) shouldEqual true }
     }
 
-    def codegenCOORDStoHEX(mosaicContext: MosaicContext): Unit = {
+    def codegenCOORDStoHEX(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -618,7 +618,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenCOORDStoGEOJSON(mosaicContext: MosaicContext): Unit = {
+    def codegenCOORDStoGEOJSON(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -656,7 +656,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
         right.zip(left).foreach { case (l, r) => l.equals(r) shouldEqual true }
     }
 
-    def codegenGEOJSONtoWKB(mosaicContext: MosaicContext): Unit = {
+    def codegenGEOJSONtoWKB(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -696,7 +696,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenGEOJSONtoWKT(mosaicContext: MosaicContext): Unit = {
+    def codegenGEOJSONtoWKT(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -735,7 +735,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenGEOJSONtoHEX(mosaicContext: MosaicContext): Unit = {
+    def codegenGEOJSONtoHEX(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
@@ -774,7 +774,7 @@ trait ConvertToCodegenBehaviors extends MosaicSpatialQueryTest {
 
     }
 
-    def codegenGEOJSONtoCOORDS(mosaicContext: MosaicContext): Unit = {
+    def codegenGEOJSONtoCOORDS(mosaicContext: => MosaicContext, spark: => SparkSession): Unit = {
         val mc = mosaicContext
         val sc = spark
         import mc.functions._
