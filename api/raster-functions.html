@@ -59,8 +59,6 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Usage" href="../usage/usage.html" />
-    <link rel="prev" title="Spatial aggregation functions" href="spatial-aggregations.html" />
   
    
 
@@ -172,7 +170,6 @@
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Mosaic</a></li>
-          <li class="md-tabs__item"><a href="api.html" class="md-tabs__link">API Documentation</a></li>
       </ul>
     </div>
   </nav>
@@ -262,98 +259,6 @@
       <a href="spatial-aggregations.html" class="md-nav__link">Spatial aggregation functions</a>
       
     
-    </li>
-    <li class="md-nav__item">
-    
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    <label class="md-nav__link md-nav__link--active" for="__toc"> Raster functions </label>
-    
-      <a href="#" class="md-nav__link md-nav__link--active">Raster functions</a>
-      
-        
-<nav class="md-nav md-nav--secondary">
-    <label class="md-nav__title" for="__toc">Contents</label>
-  <ul class="md-nav__list" data-md-scrollfix="">
-        <li class="md-nav__item"><a href="#api-raster-functions--page-root" class="md-nav__link">Raster functions</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#intro" class="md-nav__link">Intro</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#rst-bandmetadata" class="md-nav__link">rst_bandmetadata</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-georeference" class="md-nav__link">rst_georeference</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-height" class="md-nav__link">rst_height</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-isempty" class="md-nav__link">rst_isempty</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-memsize" class="md-nav__link">rst_memsize</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-metadata" class="md-nav__link">rst_metadata</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-numbands" class="md-nav__link">rst_numbands</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-pixelheight" class="md-nav__link">rst_pixelheight</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-pixelwidth" class="md-nav__link">rst_pixelwidth</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rastertogridavg" class="md-nav__link">rst_rastertogridavg</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rastertogridcount" class="md-nav__link">rst_rastertogridcount</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rastertogridmax" class="md-nav__link">rst_rastertogridmax</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rastertogridmedian" class="md-nav__link">rst_rastertogridmedian</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rastertogridmin" class="md-nav__link">rst_rastertogridmin</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rastertoworldcoord" class="md-nav__link">rst_rastertoworldcoord</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rastertoworldcoordx" class="md-nav__link">rst_rastertoworldcoordx</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rastertoworldcoordy" class="md-nav__link">rst_rastertoworldcoordy</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-retile" class="md-nav__link">rst_retile</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-rotation" class="md-nav__link">rst_rotation</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-scalex" class="md-nav__link">rst_scalex</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-scaley" class="md-nav__link">rst_scaley</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-skewx" class="md-nav__link">rst_skewx</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-skewy" class="md-nav__link">rst_skewy</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-srid" class="md-nav__link">rst_srid</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-subdatasets" class="md-nav__link">rst_subdatasets</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-summary" class="md-nav__link">rst_summary</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-upperleftx" class="md-nav__link">rst_upperleftx</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-upperlefty" class="md-nav__link">rst_upperlefty</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-width" class="md-nav__link">rst_width</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-worldtorastercoord" class="md-nav__link">rst_worldtorastercoord</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-worldtorastercoordx" class="md-nav__link">rst_worldtorastercoordx</a>
-        </li>
-        <li class="md-nav__item"><a href="#rst-worldtorastercoordy" class="md-nav__link">rst_worldtorastercoordy</a>
-        </li></ul>
-            </nav>
-        </li></ul>
-            </nav>
-        </li>
-    
-<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/api/raster-functions.rst.txt">Show Source</a> </li>
-
-  </ul>
-</nav>
-      
-    
     </li></ul>
     
     </li>
@@ -366,13 +271,6 @@
     
     
       <a href="../usage/installation.html" class="md-nav__link">Installation guide</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../usage/install-gdal.html" class="md-nav__link">GDAL Installation guide</a>
       
     
     </li>
@@ -2518,30 +2416,6 @@ This method returns the Y coordinate.</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
           
-            <a href="spatial-aggregations.html" title="Spatial aggregation functions"
-               class="md-flex md-footer-nav__link md-footer-nav__link--prev"
-               rel="prev">
-              <div class="md-flex__cell md-flex__cell--shrink">
-                <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-              </div>
-              <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-                <span class="md-flex__ellipsis">
-                  <span
-                      class="md-footer-nav__direction"> Previous </span> Spatial aggregation functions </span>
-              </div>
-            </a>
-          
-          
-            <a href="../usage/usage.html" title="Usage"
-               class="md-flex md-footer-nav__link md-footer-nav__link--next"
-               rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
-                class="md-flex__ellipsis"> <span
-                class="md-footer-nav__direction"> Next </span> Usage </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink"><i
-                class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
           
         </a>
         
