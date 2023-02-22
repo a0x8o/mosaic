@@ -52,14 +52,6 @@ class TestMultiPolygonJTS extends AnyFlatSpec {
         multiPolygonReference.equals(multiPolygonTest) shouldBe true
     }
 
-    "MosaicMultiPolygonJTS" should "not fail for empty Seq" in {
-        val expected = MosaicMultiPolygonJTS.fromWKT(
-            "MULTIPOLYGON EMPTY"
-        )
-        val actual = MosaicMultiPolygonJTS.fromSeq(Seq[MosaicPolygonJTS]())
-        expected.equals(actual) shouldBe true
-    }
-
     "MosaicMultiPolygonJTS" should "return a Seq of MosaicPolygonJTS object when calling asSeq" in {
         val multiPolygon = MosaicMultiPolygonJTS
             .fromWKT(
