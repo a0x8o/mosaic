@@ -15,6 +15,14 @@ print(f"The raw data is stored in {raw_path}")
 
 # COMMAND ----------
 
+dbutils.fs.ls(f"{raw_path}")
+
+# COMMAND ----------
+
+dbutils.fs.ls(f"{raw_path}/cycling")
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Enable Mosaic in the notebook
 # MAGIC To get started, you'll need to attach the wheel to your cluster and import instances as in the cell below.
@@ -86,6 +94,10 @@ display(
 # COMMAND ----------
 
 tripsTable = spark.table("delta.`/databricks-datasets/nyctaxi/tables/nyctaxi_yellow`")
+
+# COMMAND ----------
+
+# MAGIC %fs ls dbfs:/databricks-datasets/nyctaxi/tables/nyctaxi_yellow
 
 # COMMAND ----------
 
