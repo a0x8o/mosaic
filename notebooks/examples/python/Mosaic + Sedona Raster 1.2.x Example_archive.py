@@ -9,8 +9,8 @@
 # MAGIC ```
 # MAGIC {
 # MAGIC     "num_workers": 0,
-# MAGIC     "cluster_name": "geospatial-11.2",
-# MAGIC     "spark_version": "11.2.x-cpu-ml-scala2.12",
+# MAGIC     "cluster_name": "mjohns-mosaic-sedona-sn",
+# MAGIC     "spark_version": "10.4.x-scala2.12",
 # MAGIC     "spark_conf": {
 # MAGIC         "spark.databricks.cluster.profile": "singleNode",
 # MAGIC         "spark.sql.extensions": "org.apache.sedona.viz.sql.SedonaVizExtensions,org.apache.sedona.sql.SedonaSqlExtensions",
@@ -57,8 +57,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md 
-# MAGIC %pip install /dbfs/FileStore/jars/sedona/1.2.1-incubating-master/apache_sedona-1.2.0-py3-none-any.whl
+# MAGIC %pip install /dbfs/FileStore/jars/sedona/1.2.1-incubating/apache_sedona-1.2.1-py3-none-any.whl
 
 # COMMAND ----------
 
@@ -105,25 +104,25 @@ SedonaRegistrator.registerAll(spark)
 # COMMAND ----------
 
 # Path to directory of geotiff images 
-DATA_DIR = "/ml/blogs/geospatial/data/sedona-raster"
+DATA_DIR = "/FileStore/geospatial/sedona-raster"
 DATA_DIR_FUSE = "/dbfs" + DATA_DIR
 
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC wget https://github.com/apache/incubator-sedona/blob/master/binder/data/raster/T21HUB_4704_4736_8224_8256.tif?raw=true -O /dbfs/ml/blogs/geospatial/data/sedona-raster/T21HUB_4704_4736_8224_8256.tif
-# MAGIC wget https://github.com/apache/incubator-sedona/blob/master/binder/data/raster/vya_T21HUB_992_1024_4352_4384.tif?raw=true -O /dbfs/ml/blogs/geospatial/data/sedona-raster/vya_T21HUB_992_1024_4352_4384.tif
+# MAGIC wget https://github.com/apache/incubator-sedona/blob/master/binder/data/raster/T21HUB_4704_4736_8224_8256.tif?raw=true -O /dbfs/FileStore/geospatial/sedona-raster/T21HUB_4704_4736_8224_8256.tif
+# MAGIC wget https://github.com/apache/incubator-sedona/blob/master/binder/data/raster/vya_T21HUB_992_1024_4352_4384.tif?raw=true -O /dbfs/FileStore/geospatial/sedona-raster/vya_T21HUB_992_1024_4352_4384.tif
 # MAGIC ls $PWD
 
 # COMMAND ----------
 
-# MAGIC %sh ls /dbfs/ml/blogs/geospatial/data/sedona-raster/
+# MAGIC %sh ls /dbfs/FileStore/geospatial/sedona-raster/
 
 # COMMAND ----------
 
 # dbutils.fs.cp("file:/databricks/driver/T21HUB_4704_4736_8224_8256.tif",f"dbfs:{DATA_DIR}/T21HUB_4704_4736_8224_8256.tif")
 # dbutils.fs.cp("file:/databricks/driver/vya_T21HUB_992_1024_4352_4384.tif",f"dbfs:{DATA_DIR}/vya_T21HUB_992_1024_4352_4384.tif")
-display(dbutils.fs.ls("dbfs:/ml/blogs/geospatial/data/sedona-raster"))
+display(dbutils.fs.ls(DATA_DIR))
 
 # COMMAND ----------
 
@@ -467,10 +466,6 @@ SAVE_DIR_FUSE = "/dbfs" + SAVE_DIR
 
 # COMMAND ----------
 
-# MAGIC %fs ls dbfs:/home/alex.barreto@databricks.com/geospatial/sedona/raster
-
-# COMMAND ----------
-
 # MAGIC %md
 # MAGIC > Writing GeoTiff DataFrame as GeoTiff Images
 
@@ -680,10 +675,6 @@ display(df_append)
 # MAGIC %md
 # MAGIC 
 # MAGIC > Sample UDF calculates sum of all the values in a band which are greater than 1000.0
-
-# COMMAND ----------
-
-dbutils.fs.mkdirs("dbfs:/ml/bligs/geospatial/data/sedona-raster")
 
 # COMMAND ----------
 
