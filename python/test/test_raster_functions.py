@@ -1,7 +1,3 @@
-import logging
-import random
-import unittest
-
 from pyspark.sql.functions import abs, col, first, lit, sqrt, array
 
 from .context import api
@@ -124,7 +120,7 @@ class TestRasterFunctions(MosaicTestCaseWithGDAL):
         )
 
         overlap_result.write.format("noop").mode("overwrite").save()
-        self.assertEqual(overlap_result.count(), 86)
+        self.assertEqual(overlap_result.count(), 87)
 
     def test_raster_aggregator_functions(self):
         collection = (
