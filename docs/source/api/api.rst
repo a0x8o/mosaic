@@ -11,4 +11,10 @@ API Documentation
    spatial-functions
    spatial-indexing
    spatial-predicates
+<<<<<<< HEAD
    spatial-aggregations
+=======
+   spatial-aggregations
+   raster-functions
+   rasterio-udfs
+>>>>>>> databrickslabs-main

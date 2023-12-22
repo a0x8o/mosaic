@@ -9,8 +9,9 @@ if(length(getOption("repos")) < 1) {
 install.packages("sparklyr", repos="")
 library(sparklyr)
 
-spark_home_set("/usr/spark-download/unzipped/spark-3.3.2-bin-hadoop3")
-install.packages("sparklyrMosaic_0.3.12.tar.gz", repos = NULL)
+spark_home <- Sys.getenv("SPARK_HOME")
+spark_home_set(spark_home)
+install.packages("sparklyrMosaic_0.3.14.tar.gz", repos = NULL)
 library(sparklyrMosaic)
 
 # find the mosaic jar in staging
