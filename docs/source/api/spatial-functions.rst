@@ -179,7 +179,7 @@ st_bufferloop
 
 .. function:: st_bufferloop(col, innerRadius, outerRadius)
 
-    Returns a difference between st_buffer(col, outerRadius) and st_buffer(col, innerRadius).
+    Returns a difference between :code:`st_buffer(col, outerRadius)` and :code:`st_buffer(col, innerRadius)`.
     The resulting geometry is a loop with a width of outerRadius - innerRadius.
 
     :param col: Geometry
@@ -238,58 +238,6 @@ st_bufferloop
 
    Fig 1. ST_BufferLoop(wkt, 0.02, 0.04)
 
-st_centroid2D [Deprecated]
-**************************
-
-.. function:: st_centroid2D(col)
-
-    Returns the x and y coordinates representing the centroid of the input geometry.
-
-    :param col: Geometry
-    :type col: Column
-    :rtype: Column: StructType[x: DoubleType, y: DoubleType]
-
-    :example:
-
-.. tabs::
-   .. code-tab:: py
-
-    df = spark.createDataFrame([{'wkt': 'POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))'}])
-    df.select(st_centroid2D('wkt')).show()
-    +---------------------------------------+
-    |st_centroid(wkt)                       |
-    +---------------------------------------+
-    |{25.454545454545453, 26.96969696969697}|
-    +---------------------------------------+
-
-   .. code-tab:: scala
-
-    val df = List(("POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))")).toDF("wkt")
-    df.select(st_centroid2D(col("wkt"))).show()
-    +---------------------------------------+
-    |st_centroid(wkt)                       |
-    +---------------------------------------+
-    |{25.454545454545453, 26.96969696969697}|
-    +---------------------------------------+
-
-   .. code-tab:: sql
-
-    SELECT st_centroid2D("POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))")
-    +---------------------------------------+
-    |st_centroid(wkt)                       |
-    +---------------------------------------+
-    |{25.454545454545453, 26.96969696969697}|
-    +---------------------------------------+
-
-   .. code-tab:: r R
-
-    df <- createDataFrame(data.frame(wkt = "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))"))
-    showDF(select(df, st_centroid2D(column("wkt"))), truncate=F)
-    +---------------------------------------+
-    |st_centroid(wkt)                       |
-    +---------------------------------------+
-    |{25.454545454545453, 26.96969696969697}|
-    +---------------------------------------+
 
 st_centroid
 *************
@@ -533,8 +481,8 @@ st_dimension
 .. tabs::
    .. code-tab:: py
 
-    >>> df = spark.createDataFrame([{'wkt': 'POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))'}])
-    >>> df.select(st_dimension('wkt')).show()
+    df = spark.createDataFrame([{'wkt': 'POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))'}])
+    df.select(st_dimension('wkt')).show()
     +-----------------+
     |st_dimension(wkt)|
     +-----------------+
@@ -543,8 +491,8 @@ st_dimension
 
    .. code-tab:: scala
 
-    >>> val df = List("POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))").toDF("wkt")
-    >>> df.select(st_dimension(col("wkt"))).show()
+    val df = List("POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))").toDF("wkt")
+    df.select(st_dimension(col("wkt"))).show()
     +-----------------+
     |st_dimension(wkt)|
     +-----------------+
@@ -553,7 +501,7 @@ st_dimension
 
    .. code-tab:: sql
 
-    >>> SELECT st_dimension("POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))")
+    SELECT st_dimension("POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))")
     +-----------------+
     |st_dimension(wkt)|
     +-----------------+
@@ -562,8 +510,8 @@ st_dimension
 
    .. code-tab:: r R
 
-    >>> df <- createDataFrame(data.frame(wkt = "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))"))
-    >>> showDF(select(df, st_dimension(column("wkt"))))
+    df <- createDataFrame(data.frame(wkt = "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))"))
+    showDF(select(df, st_dimension(column("wkt"))))
     +-----------------+
     |st_dimension(wkt)|
     +-----------------+
@@ -930,7 +878,7 @@ st_intersection
 .. function:: st_intersection(geom1, geom2)
 
     Returns a geometry representing the intersection of :code:`left_geom` and :code:`right_geom`.
-    Also, see :doc:`st_intersection_agg </api/spatial-aggregations#st-intersection-agg>` function.
+    Also, see :ref:`st_intersection_agg` function.
 
     :param geom1: Geometry
     :type geom1: Column
@@ -1411,7 +1359,7 @@ st_setsrid
     +---------------------------------+
 
 .. note::
-    ST_SetSRID does not transform the coordinates of :code:`geom`,
+    :ref:`st_setsrid` does not transform the coordinates of :code:`geom`,
     rather it tells Mosaic the SRID in which the current coordinates are expressed.
     :ref:`st_setsrid` can only operate on geometries encoded in GeoJSON.
 
@@ -1470,8 +1418,6 @@ st_simplify
     | LINESTRING (0 1, 1 2, 3 0) |
     +----------------------------+
 
-.. note::
-    The specified tolerance will be ignored by the ESRI geometry API.
 
 st_srid
 *******
@@ -1531,7 +1477,7 @@ st_srid
     +------------+
 
 .. note::
-    ST_SRID can only operate on geometries encoded in GeoJSON.
+    :ref:`st_srid` can only operate on geometries encoded in GeoJSON.
 
 
 st_transform
@@ -1578,7 +1524,7 @@ st_transform
 
    .. code-tab:: sql
 
-    select st_astext(st_transform(st_setsrid(st_geomfromwkt("MULTIPOINT ((10 40), (40 30), (20 20), (30 10))"), 4326) as geom, 3857))
+    select st_astext(st_transform(st_setsrid(st_asgeojson("MULTIPOINT ((10 40), (40 30), (20 20), (30 10))"), 4326) as geom, 3857))
     +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     |convert_to(st_transform(geom, 3857))                                                                                                                                      |
     +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1600,8 +1546,8 @@ st_transform
 .. note::
     If :code:`geom` does not have an associated SRID, use :ref:`st_setsrid` to set this before calling :ref:`st_transform`.
     **Changed in 0.4 series** :ref:`st_srid`, :ref:`st_setsrid`, and :ref:`st_transform` only operate on
-    GeoJSON (columnar) data, so be sure to call :ref:`/api/geometry-accessors#st_asgeojson` to convert from WKT and WKB. You can convert
-    back after the transform, e.g. using :ref:`/api/geometry-accessors#st_astext` or :ref:`/api/geometry-accessors#st_asbinary`.
+    GeoJSON (columnar) data, so be sure to call :ref:`st_asgeojson` to convert from WKT and WKB. You can convert
+    back after the transform, e.g. using :ref:`st_astext` or :ref:`st_asbinary`.
 
 
 st_translate
@@ -1667,7 +1613,7 @@ st_union
 .. function:: st_union(left_geom, right_geom)
 
     Returns the point set union of the input geometries.
-    Also, see :doc:`st_union_agg </api/spatial-aggregations#st-union-agg>` function.
+    Also, see :ref:`st_union_agg` function.
 
     :param left_geom: Geometry
     :type left_geom: Column
