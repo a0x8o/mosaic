@@ -41,7 +41,7 @@ the :code:`setup_gdal` function.
     All of the listed parameters are optional. You can have even more control with :code:`setup_fuse_install` function.
 
     :param to_fuse_dir: Path to write out the init script for GDAL installation;
-                        default is '/Workspace/Shared/geospatial/mosaic/gdal/jammy'.
+                        default is "/Workspace/Shared/geospatial/mosaic/gdal/jammy".
     :type to_fuse_dir: str
     :param with_mosaic_pip: Whether to configure a script that pip installs databricks-mosaic,
                             fixed to the current version; default is False.
@@ -50,10 +50,10 @@ the :code:`setup_gdal` function.
                            default is False.
     :type with_ubuntugis: bool
     :param script_out_name: name of the script to be written;
-                            default is 'mosaic-gdal-init.sh'.
+                            default is "mosaic-gdal-init.sh".
     :type script_out_name: str
     :param override_mosaic_version: String value to use to override the mosaic version to install,
-                                    e.g. '==0.4.0' or '<0.5,>=0.4'; default is None.
+                                    e.g. "==0.4.0" or "<0.5,>=0.4"; default is None.
     :type override_mosaic_version: str
     :rtype: bool
 
@@ -106,6 +106,6 @@ code at the top of the notebook:
     GDAL enabled.
     GDAL 3.4.1, released 2021/12/27
 
- .. note::
-     You can configure init script from default ubuntu GDAL (3.4.1) to ubuntugis ppa @ https://launchpad.net/~ubuntugis/+archive/ubuntu/ppa (3.4.3)
-     with `setup_gdal(with_ubuntugis=True)`
+.. note::
+    You can configure init script from default ubuntu GDAL (3.4.1) to ubuntugis ppa @ https://launchpad.net/~ubuntugis/+archive/ubuntu/ppa (3.4.3)
+    with `setup_gdal(with_ubuntugis=True)`
