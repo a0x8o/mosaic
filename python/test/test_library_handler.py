@@ -1,8 +1,13 @@
+import unittest
+
 from .context import MosaicLibraryHandler
 from .utils import SparkTestCase
 
 
 class TestMosaicLibraryHandler(SparkTestCase):
+    def setUp(self) -> None:
+        return super().setUp()
+
     def test_auto_attach_enabled(self):
         handler = MosaicLibraryHandler(self.spark)
         self.assertFalse(handler.auto_attach_enabled)

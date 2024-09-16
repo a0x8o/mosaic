@@ -1,5 +1,7 @@
 from .api import *
-from .core import *
+from .core import MosaicLibraryHandler, MosaicContext
 from .utils.display_handler import displayMosaic
+from .models import SpatialKNN
+from .readers import read
 
-__version__ = "0.1.0-SNAPSHOT"
+__version__ = "0.4.3"

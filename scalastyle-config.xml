@@ -85,10 +85,6 @@ This file is divided into 3 sections:
     <parameters><parameter name="regex"><![CDATA[[A-Z][A-Za-z]*]]></parameter></parameters>
   </check>
 
-  <check level="warn" class="org.scalastyle.scalariform.ObjectNamesChecker" enabled="true">
-    <parameters><parameter name="regex"><![CDATA[(config|[A-Z][A-Za-z]*)]]></parameter></parameters>
-  </check>
-
   <check level="warn" class="org.scalastyle.scalariform.PackageObjectNamesChecker" enabled="true">
     <parameters><parameter name="regex"><![CDATA[^[a-z][A-Za-z]*$]]></parameter></parameters>
   </check>
@@ -282,17 +278,6 @@ This file is divided into 3 sections:
     <parameters><parameter name="regex">extractOpt</parameter></parameters>
     <customMessage>Use jsonOption(x).map(.extract[T]) instead of .extractOpt[T], as the latter
     is slower.  </customMessage>
-  </check>
-
-  <check level="warn" class="org.scalastyle.scalariform.ImportOrderChecker" enabled="true">
-    <parameters>
-      <parameter name="groups">java,scala,3rdParty,spark,mosaic</parameter>
-      <parameter name="group.java">javax?\..*</parameter>
-      <parameter name="group.scala">scala\..*</parameter>
-      <parameter name="group.3rdParty">(?!org\.apache\.spark\.|com\.databricks\.mosaic\.).*</parameter>
-      <parameter name="group.spark">org\.apache\.spark\..*</parameter>
-      <parameter name="group.mosaic">com\.databricks\.mosaic\..*</parameter>
-    </parameters>
   </check>
 
   <check level="warn" class="org.scalastyle.scalariform.DisallowSpaceBeforeTokenChecker" enabled="true">

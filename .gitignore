@@ -1,6 +1,7 @@
 #IntelliJ files
 .idea
 *.iml
+tmp_
 
 #VSCode files
 .vscode
@@ -17,7 +18,7 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
+#*.so
 
 # Distribution / packaging
 .Python
@@ -27,7 +28,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+**/lib/*.jar
 lib64/
 parts/
 sdist/
@@ -64,6 +65,8 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+/python/test/.run/
+spatial_knn
 
 # Translations
 *.mo
@@ -154,3 +157,11 @@ spark-warehouse
 
 # MacOS
 .DS_Store
+.Rproj.user
+docker/.m2/
+/python/notebooks/
+/scripts/m2/
+/python/mosaic_test/
+/python/checkpoint/
+/python/checkpoint-new/
+/scripts/docker/docker-build/ubuntu-22-spark-3.4/Dockerfile

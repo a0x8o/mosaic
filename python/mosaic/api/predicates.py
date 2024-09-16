@@ -9,24 +9,27 @@ from mosaic.utils.types import ColumnOrName
 ######################
 
 
-def st_distance(geom1: ColumnOrName, geom2: ColumnOrName) -> Column:
+__all__ = ["st_intersects", "st_contains", "st_within"]
+
+
+def st_intersects(left_geom: ColumnOrName, right_geom: ColumnOrName) -> Column:
     """
-    Compute the distance between `geom1` and `geom2`.
+    Returns true if the geometry `left_geom` intersects `right_geom`.
 
     Parameters
     ----------
-    geom1 : Column
-    geom2 : Column
+    left_geom : Column
+    right_geom : Column
 
     Returns
     -------
-    Column (DoubleType)
+    Column (BooleanType)
 
     """
     return config.mosaic_context.invoke_function(
-        "st_distance",
-        pyspark_to_java_column(geom1),
-        pyspark_to_java_column(geom2),
+        "st_intersects",
+        pyspark_to_java_column(left_geom),
+        pyspark_to_java_column(right_geom),
     )
 
 
@@ -46,6 +49,27 @@ def st_contains(geom1: ColumnOrName, geom2: ColumnOrName) -> Column:
     """
     return config.mosaic_context.invoke_function(
         "st_contains",
+        pyspark_to_java_column(geom1),
+        pyspark_to_java_column(geom2),
+    )
+
+
+def st_within(geom1: ColumnOrName, geom2: ColumnOrName) -> Column:
+    """
+    Returns `true` if geom1 'spatially' is within geom2.
+
+    Parameters
+    ----------
+    geom1 : Column
+    geom2 : Column
+
+    Returns
+    -------
+    Column (BooleanType)
+
+    """
+    return config.mosaic_context.invoke_function(
+        "st_within",
         pyspark_to_java_column(geom1),
         pyspark_to_java_column(geom2),
     )
