@@ -16,5 +16,9 @@ API Documentation
 =======
    spatial-aggregations
    raster-functions
+<<<<<<< HEAD
    rasterio-udfs
 >>>>>>> databrickslabs-main
+=======
+   rasterio-gdal-udfs
+>>>>>>> labs-mosaic
