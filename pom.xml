@@ -254,7 +254,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <scala.version>2.12.10</scala.version>
+                <scala.version>2.13.10</scala.version>
                 <scala.compat.version>2.12</scala.compat.version>
                 <spark.version>3.4.1</spark.version>
                 <mosaic.version>0.4.3</mosaic.version>
