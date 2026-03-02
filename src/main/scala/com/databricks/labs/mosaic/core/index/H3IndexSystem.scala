@@ -80,7 +80,10 @@ object H3IndexSystem extends IndexSystem(LongType) with Serializable {
       *   when performing polyfill.
       */
     override def getBufferRadius(geometry: MosaicGeometry, resolution: Int, geometryAPI: GeometryAPI): Double = {
-        val centroid = geometry.getCentroid.mapXY((x, y) => if (x > 180) (-180 + x % 180, y) else if (x < -180) (180 - x % 180, y) else (x, y)).getCentroid
+        val centroid = geometry.getCentroid.mapXY((x, y) => {
+            val wrapped = ((x + 180) % 360 + 360) % 360 - 180
+            (wrapped, y)
+        }).getCentroid
         val centroidIndex = h3.geoToH3(centroid.getY, centroid.getX, resolution)
         val indexGeom = indexToGeometry(centroidIndex, geometryAPI)
         GeometryTypeEnum.fromString(indexGeom.getGeometryType) match {
@@ -200,6 +203,8 @@ object H3IndexSystem extends IndexSystem(LongType) with Serializable {
         // HexRing crashes in case of pentagons.
         // Ensure a KRing fallback in said case.
         require(index >= 0L)
+        require(n >= 0, "n must be non-negative")
+        if (n == 0) return Seq(index)
         Try(
           h3.hexRing(index, n).asScala.map(_.toLong)
         ).getOrElse(
@@ -239,7 +244,7 @@ object H3IndexSystem extends IndexSystem(LongType) with Serializable {
         h3.h3ToGeoBoundary(index).asScala.map(p => Coordinates(p.lat, p.lng))
     }
 
-    override def distance(cellId: Long, cellId2: Long): Long = Try(h3.h3Distance(cellId, cellId2)).map(_.toLong).getOrElse(0)
+    override def distance(cellId: Long, cellId2: Long): Long = Try(h3.h3Distance(cellId, cellId2)).map(_.toLong).getOrElse(-1L)
 
     // Find all cells that cross the north pole. There always is exactly one cell per resolution.
     private lazy val northPoleCells = Range.inclusive(0, 15).map(h3.geoToH3(90, 0, _))

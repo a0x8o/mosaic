@@ -384,7 +384,9 @@ object BNGIndexSystem extends IndexSystem(StringType) with Serializable {
       */
     def parse(index: String): Long = {
         val prefix = if (index.length >= 2) index.take(2) else s"${index}V"
-        val letterRow = letterMap.find(_.contains(prefix)).get
+        val letterRow = letterMap.find(_.contains(prefix)).getOrElse(
+            throw new IllegalArgumentException(s"Invalid BNG index prefix: '$prefix' from input '$index'")
+        )
         val eLetter: Int = letterRow.indexOf(prefix)
         val nLetter: Int = letterMap.indexOf(letterRow)
 
@@ -476,12 +478,17 @@ object BNGIndexSystem extends IndexSystem(StringType) with Serializable {
       */
     def getX(digits: Seq[Int], edgeSize: Int): Int = {
         val n = digits.length
-        val k = (n - 6) / 2
-        val xDigits = digits.slice(1, 3) ++ digits.slice(5, 5 + k)
-        val quadrant = digits.last
-        val edgeSizeAdj = if (quadrant > 0) 2 * edgeSize else edgeSize
-        val xOffset = if (quadrant == 3 || quadrant == 4) edgeSize else 0
-        xDigits.mkString.toInt * edgeSizeAdj + xOffset
+        if (n < 6) {
+            // Sub-6-digit indices only have letter encoding (digits(1..2))
+            digits.slice(1, 3).mkString.toInt * edgeSize
+        } else {
+            val k = (n - 6) / 2
+            val xDigits = digits.slice(1, 3) ++ digits.slice(5, 5 + k)
+            val quadrant = digits.last
+            val edgeSizeAdj = if (quadrant > 0) 2 * edgeSize else edgeSize
+            val xOffset = if (quadrant == 3 || quadrant == 4) edgeSize else 0
+            xDigits.mkString.toInt * edgeSizeAdj + xOffset
+        }
     }
 
     /**
@@ -497,12 +504,17 @@ object BNGIndexSystem extends IndexSystem(StringType) with Serializable {
       */
     def getY(digits: Seq[Int], edgeSize: Int): Int = {
         val n = digits.length
-        val k = (n - 6) / 2
-        val yDigits = digits.slice(3, 5) ++ digits.slice(5 + k, 5 + 2 * k)
-        val quadrant = digits.last
-        val edgeSizeAdj = if (quadrant > 0) 2 * edgeSize else edgeSize
-        val yOffset = if (quadrant == 2 || quadrant == 3) edgeSize else 0
-        yDigits.mkString.toInt * edgeSizeAdj + yOffset
+        if (n < 6) {
+            // Sub-6-digit indices only have letter encoding (digits(3..4))
+            digits.slice(3, 5).mkString.toInt * edgeSize
+        } else {
+            val k = (n - 6) / 2
+            val yDigits = digits.slice(3, 5) ++ digits.slice(5 + k, 5 + 2 * k)
+            val quadrant = digits.last
+            val edgeSizeAdj = if (quadrant > 0) 2 * edgeSize else edgeSize
+            val yOffset = if (quadrant == 2 || quadrant == 3) edgeSize else 0
+            yDigits.mkString.toInt * edgeSizeAdj + yOffset
+        }
     }
 
     override def getResolutionStr(resolution: Int): String = resolutionMap.find(_._2 == resolution).map(_._1).getOrElse("")
@@ -528,28 +540,36 @@ object BNGIndexSystem extends IndexSystem(StringType) with Serializable {
         val digits2 = indexDigits(cellId2)
         val resolution1 = getResolution(digits1)
         val resolution2 = getResolution(digits2)
-        val edgeSize = getEdgeSize(math.min(resolution1, resolution2))
-        val x1 = getX(digits1, edgeSize)
-        val x2 = getX(digits2, edgeSize)
-        val y1 = getY(digits1, edgeSize)
-        val y2 = getY(digits2, edgeSize)
+        val edgeSize1 = getEdgeSize(resolution1)
+        val edgeSize2 = getEdgeSize(resolution2)
+        val edgeSize = math.max(edgeSize1, edgeSize2)
+        val x1 = getX(digits1, edgeSize1)
+        val x2 = getX(digits2, edgeSize2)
+        val y1 = getY(digits1, edgeSize1)
+        val y2 = getY(digits2, edgeSize2)
         // Manhattan distance with edge size precision
         math.abs((x1 - x2) / edgeSize) + math.abs((y1 - y2) / edgeSize)
     }
 
     def encode(eLetter: Int, nLetter: Int, eBin: Int, nBin: Int, quadrant: Int, nPositions: Int, resolution: Int): Long = {
-        val idPlaceholder = math.pow(10, 5 + 2 * nPositions - 2) // 1(##)(##)(#...#)(#...#)(#)
-        val eLetterShift = math.pow(10, 3 + 2 * nPositions - 2) // (##)(##)(#...#)(#...#)(#)
-        val nLetterShift = math.pow(10, 1 + 2 * nPositions - 2) // (##)(#...#)(#...#)(#)
-        val eShift = math.pow(10, nPositions) // (#...#)(#...#)(#)
-        val nShift = 10
-        val id =
+        def pow10(n: Int): Long = {
+            var result = 1L
+            var i = 0
+            while (i < n) { result *= 10L; i += 1 }
+            result
+        }
+        val idPlaceholder = pow10(5 + 2 * nPositions - 2) // 1(##)(##)(#...#)(#...#)(#)
+        val eLetterShift = pow10(3 + 2 * nPositions - 2) // (##)(##)(#...#)(#...#)(#)
+        val nLetterShift = pow10(1 + 2 * nPositions - 2) // (##)(#...#)(#...#)(#)
+        val eShift = pow10(nPositions) // (#...#)(#...#)(#)
+        val nShift = 10L
+        val id: Long =
             if (resolution == -1) {
                 (idPlaceholder + eLetter * eLetterShift) / 100 + quadrant
             } else {
                 idPlaceholder + eLetter * eLetterShift + nLetter * nLetterShift + eBin * eShift + nBin * nShift + quadrant
             }
-        id.toLong
+        id
     }
 
 }

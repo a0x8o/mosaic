@@ -47,10 +47,10 @@ case class CustomIndexSystem(conf: GridConf) extends IndexSystem(LongType) with 
         val posY = getCellPositionY(cellPosition, res)
 
         val fromX = math.max(posX - k, 0)
-        val toX = math.min(posX + k, totalCellsX(res))
+        val toX = math.min(posX + k, totalCellsX(res) - 1)
 
         val fromY = math.max(posY - k, 0)
-        val toY = math.min(posY + k, totalCellsY(res))
+        val toY = math.min(posY + k, totalCellsY(res) - 1)
 
         (fromX to toX)
             // Get all cells that overlap with the bounding box
@@ -285,10 +285,12 @@ case class CustomIndexSystem(conf: GridConf) extends IndexSystem(LongType) with 
         val resolution2 = getCellResolution(cellId2)
         val edgeSizeX = getCellWidth(resolution1)
         val edgeSizeY = getCellHeight(resolution1)
-        val x1 = getCellCenterX(getCellPositionX(cellId, resolution1), resolution1)
-        val x2 = getCellCenterX(getCellPositionX(cellId2, resolution2), resolution2)
-        val y1 = getCellCenterY(getCellPositionY(cellId, resolution1), resolution1)
-        val y2 = getCellCenterY(getCellPositionY(cellId2, resolution2), resolution2)
+        val pos1 = getCellPosition(cellId)
+        val pos2 = getCellPosition(cellId2)
+        val x1 = getCellCenterX(getCellPositionX(pos1, resolution1), resolution1)
+        val x2 = getCellCenterX(getCellPositionX(pos2, resolution2), resolution2)
+        val y1 = getCellCenterY(getCellPositionY(pos1, resolution1), resolution1)
+        val y2 = getCellCenterY(getCellPositionY(pos2, resolution2), resolution2)
         // Manhattan distance with edge size precision
         val distance = math.abs((x1 - x2) / edgeSizeX) + math.abs((y1 - y2) / edgeSizeY)
         distance.toLong
