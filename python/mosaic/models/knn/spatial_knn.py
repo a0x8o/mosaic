@@ -193,7 +193,6 @@ class SpatialKNN:
 
         return self.model.write
 
-    @staticmethod
     def read(self):
         """
         return: a SpatialKNNReader instance for this SpatialKNN instance.

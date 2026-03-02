@@ -167,7 +167,10 @@ abstract class MosaicGeometryJTS(geom: Geometry) extends MosaicGeometry {
             if (leftType == GEOMETRYCOLLECTION) {
                 this.asInstanceOf[MosaicGeometryCollectionJTS].difference(other)
             } else if (rightType == GEOMETRYCOLLECTION) {
-                other.asInstanceOf[MosaicGeometryCollectionJTS].difference(this)
+                // Compute this - other by subtracting each geometry in the collection
+                val rightGeoms = other.flatten.map(_.asInstanceOf[MosaicGeometryJTS].getGeom)
+                val result = rightGeoms.foldLeft(this.geom: Geometry)((acc, rg) => acc.difference(rg))
+                MosaicGeometryJTS(result)
             } else {
                 MosaicGeometryJTS(this.geom.difference(otherGeom))
             }
@@ -211,7 +214,10 @@ abstract class MosaicGeometryJTS(geom: Geometry) extends MosaicGeometry {
         this.geom.equalsExact(otherGeom)
     }
 
-    override def equals(other: java.lang.Object): Boolean = false
+    override def equals(other: java.lang.Object): Boolean = other match {
+        case that: MosaicGeometryJTS => this.geom.equalsExact(that.getGeom)
+        case _ => false
+    }
 
     override def equalsTopo(other: MosaicGeometry): Boolean = {
         val otherGeom = other.asInstanceOf[MosaicGeometryJTS].getGeom
@@ -268,8 +274,12 @@ abstract class MosaicGeometryJTS(geom: Geometry) extends MosaicGeometry {
 
 object MosaicGeometryJTS extends GeometryReader {
 
-    @transient val kryo = new Kryo()
-    kryo.register(classOf[MosaicGeometryJTS])
+    @transient private val kryoThreadLocal: ThreadLocal[Kryo] = ThreadLocal.withInitial(() => {
+        val k = new Kryo()
+        k.register(classOf[MosaicGeometryJTS])
+        k
+    })
+    def kryo: Kryo = kryoThreadLocal.get()
 
     override def fromWKT(wkt: String): MosaicGeometryJTS = MosaicGeometryJTS(new WKTReader().read(wkt))
 

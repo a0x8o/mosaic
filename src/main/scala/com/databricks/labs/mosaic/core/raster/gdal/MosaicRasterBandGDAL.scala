@@ -303,12 +303,12 @@ case class MosaicRasterBandGDAL(band: Band, id: Int) {
                 band.ReadRaster(0, y, band.GetXSize(), 1, line)
                 val maskLine = Array.ofDim[Double](band.GetXSize())
                 val maskRead = band.GetMaskBand().ReadRaster(0, y, band.GetXSize(), 1, maskLine)
-                if (maskRead != gdalconstConstants.CE_None) {
-                    count = count + line.count(pixel => countNoData || pixel != noDataValue)
-                } else {
+                if (maskRead == gdalconstConstants.CE_None) {
                     count = count + line.zip(maskLine).count {
                         case (pixel, mask) => mask != 0.0 && (countNoData || pixel != noDataValue)
                     }
+                } else {
+                    count = count + line.count(pixel => countNoData || pixel != noDataValue)
                 }
             }
             count

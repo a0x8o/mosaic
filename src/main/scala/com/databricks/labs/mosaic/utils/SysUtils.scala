@@ -24,8 +24,9 @@ object SysUtils {
         (exitValue, stdoutStream.toString, stderrStream.toString)
     }
 
-    def runScript(cmd: Array[String]): (String, String, String) = {
-        val p = Runtime.getRuntime.exec(cmd)
+    def runScript(cmd: Array[String], workingDir: Option[String] = None): (String, String, String) = {
+        val dir = workingDir.map(new java.io.File(_)).orNull
+        val p = Runtime.getRuntime.exec(cmd, null, dir)
         val stdinStream = new BufferedReader(new InputStreamReader(p.getInputStream))
         val stderrStream = new BufferedReader(new InputStreamReader(p.getErrorStream))
         val exitValue =

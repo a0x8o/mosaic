@@ -244,7 +244,7 @@ case class CustomIndexSystem(conf: GridConf) extends IndexSystem(LongType) with 
       *   Index ID in this index system.
       */
     override def pointToIndex(x: Double, y: Double, resolution: Int): Long = {
-        require(!x.isNaN && !x.isNaN, throw new IllegalStateException("NaN coordinates are not supported."))
+        require(!x.isNaN && !y.isNaN, throw new IllegalStateException("NaN coordinates are not supported."))
         require(
           resolution <= conf.maxResolution,
           throw new IllegalStateException(s"Resolution exceeds maximum resolution of ${conf.maxResolution}.")

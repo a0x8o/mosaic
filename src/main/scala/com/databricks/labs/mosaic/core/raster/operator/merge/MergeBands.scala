@@ -70,7 +70,7 @@ object MergeBands {
         val result = GDALTranslate.executeTranslate(
           rasterPath,
           vrtRaster,
-          command = s"gdalwarp -r $resampling",
+          command = s"gdal_translate -r $resampling",
           outOptions
         )
 

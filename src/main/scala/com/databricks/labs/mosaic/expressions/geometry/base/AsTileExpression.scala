@@ -79,9 +79,9 @@ trait AsTileExpression {
                     case TimestampType => feature.SetField(field.name, value.asInstanceOf[java.sql.Timestamp].toString)
                     case _             => throw new Error(s"Unsupported data type: ${field.dataType}")
                 }
+                i += 1
             }
             layer.CreateFeature(feature)
-            i += 1
         }
     }
 

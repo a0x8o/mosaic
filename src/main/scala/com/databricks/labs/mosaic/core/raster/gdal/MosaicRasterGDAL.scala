@@ -601,7 +601,7 @@ case class MosaicRasterGDAL(
             if (Files.isDirectory(Paths.get(tmpPath))) {
                 val parentDir = Paths.get(tmpPath).getParent.toString
                 val fileName = Paths.get(tmpPath).getFileName.toString
-                val prompt = SysUtils.runScript(Array("/bin/sh", "-c", s"cd $parentDir && zip -r0 $fileName.zip $fileName"))
+                val prompt = SysUtils.runScript(Array("zip", "-r0", s"$fileName.zip", fileName), Some(parentDir))
                 if (prompt._3.nonEmpty) throw new Exception(s"Error zipping file: ${prompt._3}. Please verify that zip is installed. Run 'apt install zip'.")
                 s"$tmpPath.zip"
             } else {
@@ -615,7 +615,7 @@ case class MosaicRasterGDAL(
             if (readPath.endsWith(".zip")) {
                 val nonZipPath = readPath.replace(".zip", "")
                 if (Files.isDirectory(Paths.get(nonZipPath))) {
-                    SysUtils.runCommand(s"rm -rf $nonZipPath")
+                    SysUtils.runScript(Array("rm", "-rf", nonZipPath))
                 }
                 Files.deleteIfExists(Paths.get(readPath.replace(".zip", "")))
             }
@@ -793,7 +793,7 @@ object MosaicRasterGDAL extends RasterReader {
                     // the way we zip using uuid is not compatible with GDAL
                     // we need to unzip and read the file if it was zipped by us
                     val parentDir = Paths.get(zippedPath).getParent
-                    val prompt = SysUtils.runScript(Array("/bin/sh", "-c", s"cd $parentDir && unzip -o $zippedPath -d $parentDir"))
+                    val prompt = SysUtils.runScript(Array("unzip", "-o", zippedPath, "-d", parentDir.toString))
                     // zipped files will have the old uuid name of the raster
                     // we need to get the last extracted file name, but the last extracted file name is not the raster name
                     // we can't list folders due to concurrent writes

@@ -22,4 +22,4 @@ def scala_option(value: Any):
 
 
 def column_option(value: Any):
-    scala_option(_to_java_column(value)) if value else scala_option(None)
+    return scala_option(_to_java_column(value)) if value else scala_option(None)

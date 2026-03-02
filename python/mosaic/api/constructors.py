@@ -79,7 +79,7 @@ def st_makepolygon(
         A polygon geometry.
 
     """
-    if hole_ring_array:
+    if hole_ring_array is not None:
         return config.mosaic_context.invoke_function(
             "st_makepolygon",
             pyspark_to_java_column(boundary_ring),

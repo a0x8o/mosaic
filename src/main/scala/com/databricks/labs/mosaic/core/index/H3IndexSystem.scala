@@ -29,8 +29,11 @@ object H3IndexSystem extends IndexSystem(LongType) with Serializable {
 
     override def isCylindrical: Boolean = true
 
-    // An instance of H3Core to be used for IndexSystem implementation.
-    @transient private val h3: H3Core = H3Core.newInstance()
+    // An instance of H3Core per thread to be used for IndexSystem implementation.
+    // H3Core is not documented as thread-safe, so we use ThreadLocal to avoid
+    // data corruption in multi-threaded Spark executors.
+    @transient private val h3ThreadLocal: ThreadLocal[H3Core] = ThreadLocal.withInitial(() => H3Core.newInstance())
+    private def h3: H3Core = h3ThreadLocal.get()
 
     /**
       * H3 resolution can only be an Int value between 0 and 15.

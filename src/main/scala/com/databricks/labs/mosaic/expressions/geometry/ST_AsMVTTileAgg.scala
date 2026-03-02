@@ -48,7 +48,7 @@ case class ST_AsMVTTileAgg(
               Nil
         )
     private lazy val projection = UnsafeProjection.create(Array[DataType](ArrayType(elementType = tupleType, containsNull = false)))
-    private lazy val row = new UnsafeRow(2)
+    private lazy val row = new UnsafeRow(1)
 
     override def createAggregationBuffer(): mutable.ArrayBuffer[Any] = mutable.ArrayBuffer.empty
 

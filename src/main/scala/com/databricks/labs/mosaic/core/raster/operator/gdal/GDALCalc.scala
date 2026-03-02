@@ -33,7 +33,9 @@ object GDALCalc {
         require(gdalCalcCommand.startsWith("gdal_calc"), "Not a valid GDAL Calc command.")
         val effectiveCommand = OperatorOptions.appendOptions(gdalCalcCommand, MosaicRasterWriteOptions.GTiff)
         val toRun = effectiveCommand.replace("gdal_calc", gdal_calc)
-        val commandRes = SysUtils.runCommand(s"python3 $toRun")
+        // Use array-based execution to avoid shell injection
+        val cmdArgs = Array("python3") ++ toRun.split("\\s+")
+        val commandRes = SysUtils.runScript(cmdArgs)
         val errorMsg = gdal.GetLastErrorMsg
         val result = GDAL.raster(resultPath, resultPath)
         val createInfo = Map(
